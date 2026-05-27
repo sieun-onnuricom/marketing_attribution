@@ -13,12 +13,6 @@ from io import BytesIO
 import warnings
 warnings.filterwarnings('ignore')
 
-# ==========================================
-# 비밀번호 입력
-# ==========================================
-
-if st.text_input("비밀번호를 입력하세요.", type="password") != st.secrets["password"]:
-    st.stop()
 
 # ==========================================
 # 페이지 설정
@@ -530,6 +524,29 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("---")
+
+# ==========================================
+# 비밀번호 입력
+# ==========================================
+
+# 1. 로그인 상태를 기억할 변수 초기화
+if 'authenticated' not in st.session_state:
+    st.session_state['authenticated'] = False
+
+# 2. 로그인 성공 전까지만 입력창을 보여줌
+if not st.session_state['authenticated']:
+    password_input = st.text_input("비밀번호를 입력하세요.", type="password")
+    
+    if password_input == st.secrets["password"]:
+        st.session_state['authenticated'] = True
+        st.rerun()  # 성공 즉시 코드를 재실행하여 로그인창을 화면에서 지움
+    else:
+        if password_input:  # 무언가 입력했는데 틀린 경우에만 에러 표시
+            st.error("비밀번호가 올바르지 않습니다.")
+        st.stop()  # 로그인 성공 전까지는 무조건 여기서 실행 중단
+
+st.sidebar.success("🔒 인증 완료 (온누리커뮤니케이션)")
+
 
 # ==========================================
 # 사이드바
