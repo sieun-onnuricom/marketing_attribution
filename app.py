@@ -545,7 +545,7 @@ if not st.session_state['authenticated']:
             st.error("비밀번호가 올바르지 않습니다.")
         st.stop()  # 로그인 성공 전까지는 무조건 여기서 실행 중단
 
-st.sidebar.success("🔒 인증 완료 (온누리커뮤니케이션)")
+st.sidebar.success("🔒 인증 완료")
 
 
 # ==========================================
